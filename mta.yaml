@@ -1,0 +1,142 @@
+---
+_schema-version: 3.3.0
+ID: dogadaption
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: dogadaption-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: dogadaption-destination
+      - name: dogadaption-db
+      - name: dogadaption-auth
+
+  - name: dogadaption-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: dogadaption-db
+
+  - name: dogadaption-app-deployer
+    type: com.sap.application.content
+    path: gen
+    requires:
+      - name: dogadaption-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: app/
+      requires:
+        - name: dogadaptionadoption
+          artifacts:
+            - adoption.zip
+          target-path: app/
+
+  - name: dogadaptionadoption
+    type: html5
+    path: app/adoption
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm ci
+        - npm run build
+      supported-platforms:
+        []
+  - name: dogadaption-destinations
+    type: com.sap.application.content
+    requires:
+      - name: dogadaption-auth
+        parameters:
+          service-key:
+            name: dogadaption-auth-key
+      - name: dogadaption-html5-repo-host
+        parameters:
+          service-key:
+            name: dogadaption-html5-repo-host-key
+      - name: srv-api
+      - name: dogadaption-destination
+        parameters:
+          content-target: true
+    build-parameters:
+      no-source: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: dogadaption-html5-repository
+              ServiceInstanceName: dogadaption-html5-repo-host
+              ServiceKeyName: dogadaption-html5-repo-host-key
+              sap.cloud.service: dogadaption.service
+            - Name: dogadaption-auth
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: dogadaption-auth
+              ServiceKeyName: dogadaption-auth-key
+              sap.cloud.service: dogadaption.service
+
+resources:
+  - name: dogadaption-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: dogadaption-srv-api
+                URL: ~{srv-api/srv-url}
+                Authentication: OAuth2UserTokenExchange
+                Type: HTTP
+                ProxyType: Internet
+                HTML5.ForwardAuthToken: true
+                HTML5.DynamicDestination: true
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+  - name: dogadaption-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: dogadaption-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: dogadaption-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: dogadaption-${org}-${space}
+        tenant-mode: dedicated
