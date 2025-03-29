@@ -12,6 +12,7 @@ service AnimalAdoption {
     }
 
     entity Animals as projection on dbmodel.Animals actions {
+        @Common.SideEffects : {TargetEntities : [_currentRow]}
         @cds.odata.bindingparameter.name: '_currentRow'
         action adopt(
             @UI.ParameterDefaultValue:_currentRow.displayName

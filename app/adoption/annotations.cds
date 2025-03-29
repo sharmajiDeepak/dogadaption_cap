@@ -94,6 +94,9 @@ annotate service.Animals with @(
             Label : '{i18n>Adopt}',
             Inline : true,
             Criticality : #Positive,
+            @UI.Hidden: {$edmJson: {
+                $Ne: [{$Path: 'adoptionStatus_code'}, 'A']
+            }}
         },
     ],
     UI.SelectionFields : [
