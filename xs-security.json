@@ -32,10 +32,10 @@
     "credential-types": [
       "binding-secret",
       "x509"
-    ]
-  },
-  "redirect-uris": [
+    ],
+    "redirect-uris": [
     "https://**cfapps.us10-001.hana.ondemand.com/**",
     "http://localhost:5000/**"
-  ]
+    ]
+  }
 }

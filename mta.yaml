@@ -127,6 +127,8 @@ resources:
                 ProxyType: Internet
                 Type: HTTP
                 URL: https://ui5.sap.com
+    requires:
+    - name: srv-api
   - name: dogadaption-db
     type: com.sap.xs.hdi-container
     parameters:
