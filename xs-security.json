@@ -28,7 +28,7 @@
       "attribute-references": []
     }
   ],
-  "oauth2-configuration" : {
+  "oauth2-configuration": {
     "credential-types": [
       "binding-secret",
       "x509"
