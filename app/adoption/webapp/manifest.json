@@ -134,7 +134,55 @@
                       "width": "160px"
                     }
                   }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#Avl": {
+                  "columns": {
+                    "DataField::displayName": {
+                      "width": "160px"
+                    },
+                    "DataField::breed": {
+                      "width": "160px"
+                    },
+                    "DataField::age": {
+                      "width": "160px"
+                    },
+                    "DataField::healthStatus_code": {
+                      "width": "160px"
+                    },
+                    "DataField::adoptionStatus_code": {
+                      "width": "160px"
+                    }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#Pending": {
+                  "columns": {
+                    "DataField::displayName": {
+                      "width": "160px"
+                    },
+                    "DataField::breed": {
+                      "width": "160px"
+                    },
+                    "DataField::age": {
+                      "width": "160px"
+                    },
+                    "DataField::healthStatus_code": {
+                      "width": "160px"
+                    }
+                  }
                 }
+              },
+              "views": {
+                "paths": [
+                  {
+                    "key": "tab0",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarAVL"
+                  },
+                  {
+                    "key": "tab1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarPEN"
+                  }
+                ],
+                "showCounts": true
               },
               "initialLoad": "Enabled"
             }

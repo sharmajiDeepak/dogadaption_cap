@@ -62,7 +62,99 @@ annotate service.Animals with @(
             Target : '@UI.FieldGroup#AdopterDetails',
         },
     ],
-    UI.LineItem : [
+     UI.SelectionPresentationVariant #SelPreVarAVL: {
+        $Type              : 'UI.SelectionPresentationVariantType',
+        Text               : 'All Animals',
+        SelectionVariant   : {
+            $Type        : 'UI.SelectionVariantType',
+            Text         : 'All Animals',
+            SelectOptions: [{
+                $Type       : 'UI.SelectOptionType',
+                PropertyName: adoptionStatus_code,
+                Ranges      : [{
+                    $Type : 'UI.SelectionRangeType',
+                    Sign  : #I,
+                    Option: #EQ,
+                    Low   : 'A'
+                }]
+            }]
+        },
+        PresentationVariant: {
+            $Type         : 'UI.PresentationVariantType',
+            Visualizations: ['@UI.LineItem#Avl'],
+            SortOrder     : [{
+                $Type     : 'Common.SortOrderType',
+                Property  : ID,
+                Descending: false
+            }]
+        }
+    },
+    UI.LineItem #Avl : [
+        {
+            $Type : 'UI.DataField',
+            Value : displayName,
+            Label : '{i18n>Name}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : '{i18n>Breed}',
+            Value : breed,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : '{i18n>Age}',
+            Value : age,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : healthStatus_code,
+            Criticality : healthStatus.criticality,
+            CriticalityRepresentation : #WithIcon,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : adoptionStatus_code,
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'AnimalAdoption.adopt',
+            Label : '{i18n>Adopt}',
+            Inline : true,
+            Criticality : #Positive,
+            @UI.Hidden: {$edmJson: {
+                $Ne: [{$Path: 'adoptionStatus_code'}, 'A']
+            }}
+        },
+    ],
+    UI.SelectionPresentationVariant #SelPreVarPEN: {
+        $Type              : 'UI.SelectionPresentationVariantType',
+        Text               : '{i18n>Pending}',
+        SelectionVariant   : {
+            $Type        : 'UI.SelectionVariantType',
+            Text         : 'Pending',
+            SelectOptions: [{
+                $Type       : 'UI.SelectOptionType',
+                PropertyName: adoptionStatus_code,
+                Ranges      : [{
+                    $Type : 'UI.SelectionRangeType',
+                    Sign  : #I,
+                    Option: #EQ,
+                    Low   : 'P'
+                }]
+            }]
+        },
+        PresentationVariant: {
+            $Type         : 'UI.PresentationVariantType',
+            Visualizations: ['@UI.LineItem#Pending'],
+            SortOrder     : [{
+                $Type     : 'Common.SortOrderType',
+                Property  : ID,
+                Descending: false
+            }],
+            GroupBy       : [displayName]
+        }
+    },
+    UI.LineItem #Pending : [
         {
             $Type : 'UI.DataField',
             Value : displayName,
