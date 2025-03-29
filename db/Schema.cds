@@ -6,7 +6,7 @@ entity Animals : cuid {
     name : String;
     breed : String;
     age : Integer;
-    species : Assocation to one Species;
+    species : Association to one Species;
     healthStatus : Association to one HealthStatus;
     adoptionStatus : Association to one AdoptionStatus;
     adopter: Association to one Adopters;
@@ -24,18 +24,18 @@ entity Species : CodeList {
 
 entity HealthStatus : CodeList {
     key code: String enum {
-        Healthy = "H";
-        RequireAttention = "RA";
-        Critical = "C";
+        Healthy = 'H';
+        RequireAttention = 'RA';
+        Critical = 'C';
     };
     criticality : Integer;
 }
 
 entity AdoptionStatus : CodeList {
     key code : String enum {
-        Available = "A";
-        Pending = "P";
-        Adopted = "AD";
+        Available = 'A';
+        Pending = 'P';
+        Adopted = 'AD';
     }
 }
 
