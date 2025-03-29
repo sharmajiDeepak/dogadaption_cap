@@ -11,11 +11,13 @@ service AnimalAdoption {
         update: Boolean
     }
 
-    entity Animals as projection on dbmodel.Animals actions {
+    entity Animals @(restrict: [{
+        grant: ['READ'], to: ['Adopter']
+    }, { grant:['*'], to: ['Admin']}]) as projection on dbmodel.Animals actions {
         @Common.DefaultValuesFunction : 'AnimalAdoption.getDefaults'
         @Common.SideEffects : {TargetEntities : [_currentRow]}
         @cds.odata.bindingparameter.name: '_currentRow'
-        action adopt(
+        action adopt @(restrict: ['CREATE', 'UPDATE'], to:'Adopter')(
             @UI.ParameterDefaultValue:_currentRow.displayName
             name: adoptionInput:name,
             email : adoptionInput:email,
@@ -26,7 +28,7 @@ service AnimalAdoption {
             address: adoptionInput:address,
             update : adoptionInput:update
         );
-        function getDefaults() returns adoptionInput;
+        function getDefaults @(restrict: ['READ'], to:'Adopter')() returns adoptionInput;
     };
     entity AdopterDetails as projection on dbmodel.Adopters;
     entity AdoptionApplication as select from dbmodel.AdaptionApplication
