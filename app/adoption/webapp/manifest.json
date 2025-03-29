@@ -113,10 +113,30 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "selectionMode": "None",
+                    "enableExport": false
+                  },
+                  "columns": {
+                    "DataField::displayName": {
+                      "width": "160px"
+                    },
+                    "DataField::age": {
+                      "width": "160px"
+                    },
+                    "DataField::healthStatus_code": {
+                      "width": "160px"
+                    },
+                    "DataField::adoptionStatus_code": {
+                      "width": "160px"
+                    },
+                    "DataField::breed": {
+                      "width": "160px"
+                    }
                   }
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },
