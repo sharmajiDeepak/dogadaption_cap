@@ -86,4 +86,30 @@ module.exports = class AnimalAdoption extends cds.ApplicationService {
             adoptionStatus_code: 'P'
         }).where({ID:animalID})
     }
+
+    async getDefaults(req) {
+        const {Adopters} = cds.entities;
+        const {user} = cds.context;
+        const result = await SELECT.one(Adopters).columns("phone", "email", "address").where({createdBy: user.id})
+        console.log("result", result)
+        if (result) {
+            const {email, phone, address} = result;
+            return {
+                name : "",
+                email : email,
+                phone : phone,
+                applicationSummary : "",
+                address: address
+            }
+        } else {
+            return {
+                name : "",
+                email : "",
+                phone : "",
+                applicationSummary : "",
+                address: ""
+            }
+        }
+       
+    }
 }

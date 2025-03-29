@@ -12,6 +12,7 @@ service AnimalAdoption {
     }
 
     entity Animals as projection on dbmodel.Animals actions {
+        @Common.DefaultValuesFunction : 'AnimalAdoption.getDefaults'
         @Common.SideEffects : {TargetEntities : [_currentRow]}
         @cds.odata.bindingparameter.name: '_currentRow'
         action adopt(
@@ -24,7 +25,8 @@ service AnimalAdoption {
             @UI.MultiLineText:true
             address: adoptionInput:address,
             update : adoptionInput:update
-        )
+        );
+        function getDefaults() returns adoptionInput;
     };
     entity AdopterDetails as projection on dbmodel.Adopters;
     entity AdoptionApplication as select from dbmodel.AdaptionApplication
