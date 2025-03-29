@@ -213,3 +213,14 @@ annotate service.HealthStatus with {
     }
 };
 
+annotate service.adoptionInput with {
+    name @Common.Label: 'Adopting Pet Name';
+    applicationSummary @Common : { Label : 'Summary', };
+    address @Common : { Label : 'Address', };
+    phone @Common : { Label : 'Phone Number', };
+    email @Common : { Label : 'Email Address', };
+    update @Common : { Label : 'Update', }
+
+} ;
+
+

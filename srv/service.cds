@@ -2,7 +2,30 @@ using {cap.dogadaption as dbmodel} from '../db/Schema';
 
 service AnimalAdoption {
 
-    entity Animals as projection on dbmodel.Animals;
+    type adoptionInput {
+        name : String;
+        email : String @assert.format: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+        phone : String @assert.format : '^\d{10}$';
+        applicationSummary : String(50);
+        address: String;
+        update: Boolean
+    }
+
+    entity Animals as projection on dbmodel.Animals actions {
+        @cds.odata.bindingparameter.name: '_currentRow'
+        action adopt(
+            @UI.ParameterDefaultValue:_currentRow.displayName
+            name: adoptionInput:name,
+            email : adoptionInput:email,
+            phone : adoptionInput:phone,
+            @UI.MultiLineText:true
+            applicationSummary : adoptionInput:applicationSummary,
+            @UI.MultiLineText:true
+            address: adoptionInput:address,
+            update : adoptionInput:update
+        )
+    };
+    entity AdopterDetails as projection on dbmodel.Adopters;
     entity AdoptionApplication as select from dbmodel.AdaptionApplication
     where createdBy = $user.id;
 

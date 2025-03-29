@@ -43,6 +43,7 @@ entity Adopters: cuid, managed {
     name : String;
     email : String @asset.format: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
     phone : String @asset.format: '^\d{10}$';
+    address : String;
     virtual update : Boolean;
 }
 
