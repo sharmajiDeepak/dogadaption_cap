@@ -15,5 +15,22 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+
+  "cds": {
+    "[development]": {
+      "requires": {
+        "auth":"mocked",
+        "users": {
+          "dsharma": {
+            "roles": ["Adopter"],
+            "attr": {
+              "name": "Deepak Sharma",
+              "roles": ["Adopter"]
+            }
+          }
+        }
+      }
+    }
   }
 }

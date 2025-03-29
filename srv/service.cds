@@ -8,7 +8,7 @@ service AnimalAdoption {
 
 }
 
-annotate AnimalAdoption with @(requires:'Adopter');
+//annotate AnimalAdoption with @(requires:'Adopter');
 
 service AdminService {
 
@@ -17,5 +17,5 @@ service AdminService {
 
 }
 
-annotate AdminService with @(requires: 'Admin');
+//annotate AdminService with @(requires: 'Admin');
 
