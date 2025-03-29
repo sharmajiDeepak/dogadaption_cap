@@ -18,6 +18,8 @@
     "@sap/ux-specification": "^1.124.12"
   },
   "scripts": {
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "build": "npx rimraf resources mta_archives && mbt build --mtar archive",
     "start": "cds-serve",
     "watch-adoption": "cds watch --open adoption/webapp/index.html?sap-ui-xx-viewCache=false"
   },

@@ -21,6 +21,8 @@ modules:
       readiness-health-check-type: http
       readiness-health-check-http-endpoint: /health
     build-parameters:
+      ignore:
+        - "node_modules/"
       builder: npm
     provides:
       - name: srv-api # required by consumers of CAP services (e.g. approuter)
@@ -47,6 +49,8 @@ modules:
         parameters:
           content-target: true
     build-parameters:
+      ignore:
+        - "node_modules/"
       build-result: app/
       requires:
         - name: dogadaptionadoption
@@ -58,6 +62,8 @@ modules:
     type: html5
     path: app/adoption
     build-parameters:
+      ignore:
+        - "node_modules/"
       build-result: dist
       builder: custom
       commands:

@@ -24,5 +24,8 @@
     "dependencies": [
       "ui5-task-zipper"
     ]
+  },
+  "dependencies": {
+    "dogadaption": "file:../.."
   }
 }
