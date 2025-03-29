@@ -169,6 +169,13 @@
                       "width": "160px"
                     }
                   }
+                },
+                "/AdoptionApplication/@com.sap.vocabularies.UI.v1.LineItem#tableView": {
+                  "columns": {
+                    "DataField::applicationDate": {
+                      "width": "160px"
+                    }
+                  }
                 }
               },
               "views": {
@@ -180,6 +187,11 @@
                   {
                     "key": "tab1",
                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#SelPreVarPEN"
+                  },
+                  {
+                    "key": "tableView",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView",
+                    "entitySet": "AdoptionApplication"
                   }
                 ],
                 "showCounts": true
