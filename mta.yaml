@@ -103,6 +103,24 @@ modules:
               ServiceKeyName: dogadaption-auth-key
               sap.cloud.service: dogadaption.service
 
+  - name: dogadaption
+    type: approuter.nodejs
+    path: app\router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: dogadaption-auth
+      - name: dogadaption-destination
+      - name: dogadaption-html5-runtime
+
 resources:
   - name: dogadaption-destination
     type: org.cloudfoundry.managed-service
@@ -128,7 +146,7 @@ resources:
                 Type: HTTP
                 URL: https://ui5.sap.com
     requires:
-    - name: srv-api
+      - name: srv-api
   - name: dogadaption-db
     type: com.sap.xs.hdi-container
     parameters:
@@ -148,3 +166,8 @@ resources:
       config:
         xsappname: dogadaption-${org}-${space}
         tenant-mode: dedicated
+  - name: dogadaption-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
